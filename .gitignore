@@ -1,5 +1,7 @@
 .idea/
+.vscode/
 cmake-build-debug/
 CMakeLists.txt
-main
-main.cpp
+main*
+src/*
+!src/*.cpp

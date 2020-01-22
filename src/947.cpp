@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 #include <unordered_set>
 
 using namespace std;
@@ -7,15 +8,27 @@ using namespace std;
 class UnionFind {
    public:
     vector<int> parents;
+    unordered_map<int, vector<int>> stonesInRows;
+    unordered_map<int, vector<int>> stonesInCols;
+
     UnionFind(vector<vector<int>>& stones) {
         this->parents = vector<int>(stones.size(), -1);
         for (int i = 0; i < stones.size(); i++) {
             this->parents[i] = i;
+            stonesInRows[stones[i][0]].push_back(i);
+            stonesInCols[stones[i][1]].push_back(i);
         }
-        for (int i = 0; i < stones.size(); i++) {
-            for (int j = 0; j < stones.size(); j++) {
-                if (stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]) {
-                    merge(i, j);
+        for (auto it1 = stonesInRows.begin(); it1 != stonesInRows.end(); it1++) {
+            for (auto it2 = it1->second.begin(); it2 != it1->second.end(); it2++) {
+                if ((it2 + 1) != it1->second.end()) {
+                    merge(*it2, *(it2 + 1));
+                }
+            }
+        }
+        for (auto it1 = stonesInCols.begin(); it1 != stonesInCols.end(); it1++) {
+            for (auto it2 = it1->second.begin(); it2 != it1->second.end(); it2++) {
+                if ((it2 + 1) != it1->second.end()) {
+                    merge(*it2, *(it2 + 1));
                 }
             }
         }
@@ -62,8 +75,8 @@ int main() {
     stones.push_back({0, 0});
     stones.push_back({0, 2});
     stones.push_back({1, 1});
-    stones.push_back({0, 2});
     stones.push_back({2, 0});
+    stones.push_back({2, 2});
     cout << solution.removeStones(stones);
     return 0;
 }

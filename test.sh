@@ -1,4 +1,4 @@
 #!/bin/bash
 
-g++ -o main src/$1.cpp
+g++ -o main csrc/$1.cpp
 ./main

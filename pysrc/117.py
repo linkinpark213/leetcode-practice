@@ -20,26 +20,24 @@ class Node:
         return s
 
 
-class RecursiveSolution:
+class PointerSolution:
     def connect(self, root: 'Node') -> 'Node':
-        dummy = Node()
-        dummy.next = root
-        while dummy.next is not None:
-            ptr = dummy.next
-            newPtr = dummy
-            newPtr.next = None
-
-            while ptr is not None:
-                for tempPtr in [ptr.left, ptr.right]:
-                    if tempPtr is not None:
-                        newPtr.next = tempPtr
-                        newPtr = newPtr.next
-                ptr = ptr.next
-
+        head = Node()
+        head.next = root
+        while head.next is not None:
+            prevLayerPtr = head.next
+            head.next = None
+            newLayerPtr = head
+            while prevLayerPtr is not None:
+                for child in [prevLayerPtr.left, prevLayerPtr.right]:
+                    if child is not None:
+                        newLayerPtr.next = child
+                        newLayerPtr = child
+                prevLayerPtr = prevLayerPtr.next
         return root
 
 
-class Solution:
+class QueueSolution:
     def connect(self, root: 'Node') -> 'Node':
         if root is None:
             return None
@@ -59,18 +57,18 @@ class Solution:
 
 
 if __name__ == '__main__':
-    solution = RecursiveSolution()
-    root = Node(1)
-    root.left = Node(2)
-    root.right = Node(3)
-    root.left.left = Node(4)
-    root.left.right = Node(5)
-    root.right.right = Node(7)
-    print(solution.connect(root))
+    for solution in [PointerSolution(), QueueSolution()]:
+        root = Node(1)
+        root.left = Node(2)
+        root.right = Node(3)
+        root.left.left = Node(4)
+        root.left.right = Node(5)
+        root.right.right = Node(7)
+        print(solution.connect(root))
 
-    root = Node(3)
-    root.left = Node(9)
-    root.right = Node(20)
-    root.right.left = Node(15)
-    root.right.right = Node(7)
-    print(solution.connect(root))
+        root = Node(3)
+        root.left = Node(9)
+        root.right = Node(20)
+        root.right.left = Node(15)
+        root.right.right = Node(7)
+        print(solution.connect(root))

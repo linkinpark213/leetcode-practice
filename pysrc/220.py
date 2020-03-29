@@ -3,17 +3,20 @@ from typing import List
 
 class Solution:
     def containsNearbyAlmostDuplicate(self, nums: List[int], k: int, t: int) -> bool:
-        if len(nums) == 0 or k == 0:
+        if len(nums) == 0 or k == 0 or t < 0:
             return False
-        nums = sorted([(i, num) for i, num in enumerate(nums)], key=lambda x: x[1])
-        fast = 1
-        slow = 0
-        while fast < len(nums):
-            while slow < fast - 1 and nums[fast][1] > nums[slow][1] + t:
-                slow += 1
-            if nums[fast][1] <= nums[slow][1] + t and abs(nums[slow][0] - nums[fast][0]) <= k:
+        bucket = dict()
+        for i, num in enumerate(nums):
+            bucketNum = num // (t + 1)
+            if bucketNum in bucket:
                 return True
-            fast += 1
+            elif bucketNum + 1 in bucket and abs(bucket[bucketNum + 1] - num) <= t:
+                return True
+            elif bucketNum - 1 in bucket and abs(bucket[bucketNum - 1] - num) <= t:
+                return True
+            bucket[bucketNum] = num
+            if i >= k:
+                bucket.pop(nums[i - k] // (t + 1))
 
         return False
 

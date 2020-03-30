@@ -14,7 +14,6 @@ class Solution:
                         dp[pos] = max(dp[pos], dp[j] + 1)
                     else:
                         break
-        # print([[num, jumps] for num, jumps in zip(arr, dp)])
         return max(dp)
 
 

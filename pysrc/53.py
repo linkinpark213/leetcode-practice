@@ -3,14 +3,10 @@ from typing import List
 
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        if len(nums) == 0:
-            return 0
-        maxSum = nums[0]
-        curSum = nums[0]
-        for num in nums[1:]:
-            curSum = max(num, curSum + num)
-            maxSum = max(maxSum, curSum)
-        return maxSum
+        sums = [0] * len(nums)
+        for i, num in enumerate(nums):
+            sums[i] = num + (sums[i - 1] if sums[i - 1] > 0 else 0)
+        return max(sums)
 
 
 if __name__ == '__main__':

@@ -8,16 +8,16 @@ class Solution:
             else:
                 l, r = 1, n
                 while l + 1 < r:
-                    x = (l + r) // 2
-                    t1 = self.dp(k - 1, x - 1, memo)
-                    t2 = self.dp(k, n - x, memo)
+                    mid = (l + r) // 2
+                    t1 = self.dp(k - 1, mid - 1, memo)
+                    t2 = self.dp(k, n - mid, memo)
 
                     if t1 < t2:
-                        l = x
+                        l = mid
                     elif t1 > t2:
-                        r = x
+                        r = mid
                     else:
-                        l = r = x
+                        l = r = mid
 
                 ans = 1 + min(max(self.dp(k - 1, x - 1, memo), self.dp(k, n - x, memo))
                               for x in (l, r))

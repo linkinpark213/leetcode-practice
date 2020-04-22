@@ -8,10 +8,10 @@ class Node:
         self.length = length
 
     def __gt__(self, other):
-        return self.distance > other.distance
+        return self.distance > other.dist
 
     def __lt__(self, other):
-        return self.distance <= other.distance
+        return self.distance <= other.dist
 
 
 class MinHeap:
@@ -69,11 +69,11 @@ class Solution:
             node = queue.pop()
             if node.v == dst:
                 if node.length <= K + 1:
-                    return node.distance
+                    return node.dist
 
             for v, dist in E[node.v]:
                 if node.length <= K:
-                    queue.insert(Node(v, node.distance + dist, node.length + 1))
+                    queue.insert(Node(v, node.dist + dist, node.length + 1))
         return -1
 
 

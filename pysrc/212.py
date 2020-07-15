@@ -18,13 +18,13 @@ class Trie:
             if c not in ptr.children.keys():
                 ptr.children[c] = TrieNode(c)
                 if (i == 0):
-                    ptr.children[c].paths = findChar(board, c)
+                    ptr.children[c].Y = findChar(board, c)
                 else:
                     for path in ptr.paths:
-                        ptr.children[c].paths.extend(findChar(board, c, path))
+                        ptr.children[c].Y.extend(findChar(board, c, path))
 
             ptr = ptr.children[c]
-            if len(ptr.paths) == 0:
+            if len(ptr.Y) == 0:
                 return False
         return True
 

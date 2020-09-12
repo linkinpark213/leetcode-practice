@@ -47,7 +47,7 @@ class MaxHeap:
         return self.list[0]
 
 
-class Solution:
+class HeapSolution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         ans = []
         heap = MaxHeap()
@@ -58,6 +58,28 @@ class Solution:
         return ans
 
 
+class StackSolution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        def push(stack, i, num):
+            while len(stack) > 0 and stack[-1][1] <= num:
+                stack.pop()
+            stack.append((i, num))
+
+        ans = []
+        stack = []
+        for i in range(k):
+            push(stack, i, nums[i])
+        ans.append(stack[0][1])
+
+        for i in range(k, len(nums)):
+            if stack[0][0] == i - k:
+                stack.pop(0)
+            push(stack, i, nums[i])
+            ans.append(stack[0][1])
+
+        return ans
+
+
 if __name__ == '__main__':
-    solution = Solution()
-    print(solution.maxSlidingWindow(nums=[1, 3, -1, -3, 5, 3, 6, 7], k=3))
+    for solution in [HeapSolution(), StackSolution()]:
+        print(solution.maxSlidingWindow(nums=[1, 3, -1, -3, 5, 3, 6, 7], k=3))
